@@ -28,4 +28,9 @@ describe("String Calculator Test Suite", () => {
   test("Multiple numbers comma separated returns their sum", () => {
     expect(add("1,2,3,4")).toBe(10);
   });
+
+  // Test for addition of numbers separated by commas or newlines
+  test("Numbers separated by commas or newlines returns their sum", () => {
+    expect(add("1\n2,3")).toBe(6);
+  });
 });
