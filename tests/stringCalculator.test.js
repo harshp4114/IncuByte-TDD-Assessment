@@ -53,4 +53,12 @@ describe("String Calculator Test Suite", () => {
   test("Numbers with custom delimiter of length greater than 1 returns their sum", () => {
     expect(add("//[***]\n1***2***3")).toBe(6);
   });
+
+  // Test for addition of numbers with multiple custom delimiters
+  test("Numbers with multiple custom delimiters returns their sum", () => {
+    expect(add("//[*][%]\n1*2%3")).toBe(6);
+  });
+  test("Numbers with multiple custom delimiters returns their sum", () => {
+    expect(add("//[*][%][#]\n1*2%3#4")).toBe(10);
+  });
 });
