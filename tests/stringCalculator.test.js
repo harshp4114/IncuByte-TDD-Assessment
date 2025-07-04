@@ -1,3 +1,5 @@
+const add = require("../src/stringCalculator");
+
 describe("Jest Working Test Suite", () => {
   test("Jest is working", () => {
     expect(1).toBe(1);
