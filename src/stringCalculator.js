@@ -1,7 +1,16 @@
 function parseInput(input) {
+  if (
+    input.startsWith("//[") &&
+    input.slice(2, input.indexOf("]\n")).includes("][")
+  ) {
+    const end = input.indexOf("]\n");
+    const delimiters = input.slice(3, end).split("][");
+    const numberString = input.slice(end + 2);
+    return { delimiter: delimiters, numberString };
+  }
   if (input.startsWith("//[")) {
     const end = input.indexOf("]\n");
-    const delimiter = input.slice(3, end); 
+    const delimiter = input.slice(3, end);
     const numberString = input.slice(end + 2);
     return { delimiter, numberString };
   }
@@ -15,20 +24,27 @@ function parseInput(input) {
   return { delimiter: null, numberString: input };
 }
 
+function splitNumbersByMultipleDelimiters(numberString, delimiters) {
+  for (let i = 0; i < delimiters.length; i++) {
+    numberString = numberString.split(delimiters[i]).join(",");
+  }
+  return numberString.split(",");
+}
+
 function splitNumbers(numberString, delimiter) {
   if (delimiter === null) {
-    return numberString
-      .split('\n')
-      .flatMap(part => part.split(','));
+    return numberString.split("\n").flatMap((part) => part.split(","));
+  } else if (Array.isArray(delimiter)) {
+    return splitNumbersByMultipleDelimiters(numberString, delimiter);
   } else {
     return numberString.split(delimiter);
   }
 }
 
 function checkForNegatives(numbers) {
-  const negatives = numbers.filter(n => n < 0);
+  const negatives = numbers.filter((n) => n < 0);
   if (negatives.length > 0) {
-    throw new Error(`negative numbers not allowed ${negatives.join(', ')}`);
+    throw new Error(`negative numbers not allowed ${negatives.join(", ")}`);
   }
 }
 
@@ -37,11 +53,11 @@ function add(input) {
 
   const { delimiter, numberString } = parseInput(input);
   const parts = splitNumbers(numberString, delimiter);
-  const numbers = parts.map(n => Number(n.trim()));
+  const numbers = parts.map((n) => Number(n.trim()));
 
   checkForNegatives(numbers);
 
-  return numbers.reduce((sum, n) => n > 1000 ? sum : sum + n, 0);
+  return numbers.reduce((sum, n) => (n > 1000 ? sum : sum + n), 0);
 }
 
 module.exports = add;
