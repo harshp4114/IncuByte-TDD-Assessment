@@ -33,4 +33,9 @@ describe("String Calculator Test Suite", () => {
   test("Numbers separated by commas or newlines returns their sum", () => {
     expect(add("1\n2,3")).toBe(6);
   });
+
+  // Test for addition of numbers with custom delimiters preceded by '//'
+  test("Numbers with custom delimiter returns their sum", () => {
+    expect(add("//;\n1;2")).toBe(3);
+  });
 });
