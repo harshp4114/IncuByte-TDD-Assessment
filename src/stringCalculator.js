@@ -1,41 +1,47 @@
-function getDelimiterAndNumbers(input) {
+function parseInput(input) {
   if (input.startsWith("//[")) {
-    const match = input.match(/^\/\/\[(.+)\]\n(.*)$/);
-    if (match) {
-      const delimiter = match[1];
-      const numbers = match[2];
-      return { delimiter, numbers };
-    }
-  } else {
-    const match = input.match(/^\/\/(.)\n(.*)$/);
-    if (match) {
-      const delimiter = new RegExp(`[${match[1]}]`);
-      const numbers = match[2];
-      return { delimiter, numbers };
-    }
+    const end = input.indexOf("]\n");
+    const delimiter = input.slice(3, end); 
+    const numberString = input.slice(end + 2);
+    return { delimiter, numberString };
   }
-  return { delimiter: /[,\n]/, numbers: input };
+
+  if (input.startsWith("//")) {
+    const delimiter = input[2];
+    const numberString = input.slice(4);
+    return { delimiter, numberString };
+  }
+
+  return { delimiter: null, numberString: input };
+}
+
+function splitNumbers(numberString, delimiter) {
+  if (delimiter === null) {
+    return numberString
+      .split('\n')
+      .flatMap(part => part.split(','));
+  } else {
+    return numberString.split(delimiter);
+  }
 }
 
 function checkForNegatives(numbers) {
-  const negatives = numbers.filter((num) => num < 0);
+  const negatives = numbers.filter(n => n < 0);
   if (negatives.length > 0) {
-    throw new Error(`negative numbers not allowed ${negatives.join(", ")}`);
+    throw new Error(`negative numbers not allowed ${negatives.join(', ')}`);
   }
 }
 
-function add(numbers) {
-  if (numbers === "") return 0;
+function add(input) {
+  if (input === "") return 0;
 
-  const { delimiter, numbers: sanitized } = getDelimiterAndNumbers(numbers);
-  const values = sanitized.split(delimiter).map((num) => Number(num));
+  const { delimiter, numberString } = parseInput(input);
+  const parts = splitNumbers(numberString, delimiter);
+  const numbers = parts.map(n => Number(n.trim()));
 
-  checkForNegatives(values);
+  checkForNegatives(numbers);
 
-  return values.reduce((sum, num) => {
-    if (num > 1000) return sum + 0;
-    return sum + num;
-  }, 0);
+  return numbers.reduce((sum, n) => n > 1000 ? sum : sum + n, 0);
 }
 
 module.exports = add;
