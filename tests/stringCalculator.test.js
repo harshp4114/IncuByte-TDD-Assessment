@@ -45,7 +45,12 @@ describe("String Calculator Test Suite", () => {
   });
 
   // Test for ignoring numbers greater than 1000 during addition
-  test("Numbers greater than 1000 are ignored",()=>{
+  test("Numbers greater than 1000 are ignored", () => {
     expect(add("2,1001")).toBe(2);
-  })
+  });
+
+  // Test for addition of numbers with custom delimeters of length greater than 1
+  test("Numbers with custom delimiter of length greater than 1 returns their sum", () => {
+    expect(add("//[***]\n1***2***3")).toBe(6);
+  });
 });
