@@ -1,5 +1,12 @@
 function getDelimiterAndNumbers(input) {
-  if (input.startsWith("//")) {
+  if (input.startsWith("//[")) {
+    const match = input.match(/^\/\/\[(.+)\]\n(.*)$/);
+    if (match) {
+      const delimiter = match[1];
+      const numbers = match[2];
+      return { delimiter, numbers };
+    }
+  } else {
     const match = input.match(/^\/\/(.)\n(.*)$/);
     if (match) {
       const delimiter = new RegExp(`[${match[1]}]`);
@@ -26,7 +33,7 @@ function add(numbers) {
   checkForNegatives(values);
 
   return values.reduce((sum, num) => {
-    if(num>1000) return sum+0;
+    if (num > 1000) return sum + 0;
     return sum + num;
   }, 0);
 }
