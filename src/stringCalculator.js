@@ -14,9 +14,14 @@ function add(numbers) {
   if (numbers === "") return 0;
 
   const { delimiter, numbers: sanitized } = getDelimiterAndNumbers(numbers);
-  const values = sanitized.split(delimiter);
+  const values = sanitized.split(delimiter).map((num)=>Number(num));
 
-  return values.reduce((sum, num) => sum + Number(num), 0);
+  const negatives = values.filter(num => num < 0);
+  if (negatives.length > 0) {
+    throw new Error(`negative numbers not allowed ${negatives.join(", ")}`);
+  }
+
+  return values.reduce((sum, num) => sum + num, 0);
 }
 
 module.exports = add;
