@@ -40,7 +40,12 @@ describe("String Calculator Test Suite", () => {
   });
 
   // Test for addition of numbers containing negative numbers
-  test("Negative numbers throw an error",()=>{
+  test("Negative numbers throw an error", () => {
     expect(() => add("1,-2,3")).toThrow("negative numbers not allowed -2");
+  });
+
+  // Test for ignoring numbers greater than 1000 during addition
+  test("Numbers greater than 1000 are ignored",()=>{
+    expect(add("2,1001")).toBe(2);
   })
 });
