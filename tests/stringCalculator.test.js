@@ -38,4 +38,9 @@ describe("String Calculator Test Suite", () => {
   test("Numbers with custom delimiter returns their sum", () => {
     expect(add("//;\n1;2")).toBe(3);
   });
+
+  // Test for addition of numbers containing negative numbers
+  test("Negative numbers throw an error",()=>{
+    expect(() => add("1,-2,3")).toThrow("negative numbers not allowed -2");
+  })
 });
