@@ -1,7 +1,6 @@
 function add(numbers) {
   if (numbers == "") return 0;
-  const sanitized=numbers.replace(/\n/g,",");
-  const values = sanitized.split(",");
+  const values = numbers.split(/[\n,]/g);
   return values.reduce((sum, num) => sum + Number(num), 0);
 }
 
