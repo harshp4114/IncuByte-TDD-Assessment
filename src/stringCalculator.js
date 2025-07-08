@@ -14,7 +14,6 @@ function parseInput(input) {
     const numberString = input.slice(delimiterSectionEnd + 2);
     return { delimiter: delimiters, numberString };
   }
-
   // Case: Single custom delimiter (e.g., //[***]\n1***2)
   if (input.startsWith("//[")) {
     const delimiterSectionEnd = input.indexOf("]\n");
