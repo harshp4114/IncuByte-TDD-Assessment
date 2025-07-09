@@ -66,7 +66,21 @@ function splitNumberString(numberString, delimiter) {
 function checkForNegatives(numbers) {
   const negativeNumbers = numbers.filter((n) => n < 0);
   if (negativeNumbers.length > 0) {
-    throw new Error(`negative numbers not allowed ${negativeNumbers.join(", ")}`);
+    throw new Error(
+      `negative numbers not allowed ${negativeNumbers.join(", ")}`
+    );
+  }
+}
+
+function checkForAlphabets(numbers) {
+  const regex = /[a-zA-z]/;
+  const alphas = numbers.filter((num) => {
+      return regex.test(num);
+  });
+
+  if (alphas.length) {
+    const err = "Invalid numbers: " + alphas.join(", ");
+    throw new Error(err);
   }
 }
 
@@ -79,6 +93,7 @@ function add(input) {
 
   const { delimiter, numberString } = parseInput(input);
   const numberParts = splitNumberString(numberString, delimiter);
+  checkForAlphabets(numberParts.map((str) => str.trim()));
   const numbers = numberParts.map((str) => Number(str.trim()));
 
   checkForNegatives(numbers);

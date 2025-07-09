@@ -69,4 +69,7 @@ describe("String Calculator Test Suite", () => {
   test("Numbers with multiple custom delimiters of length greater than 1 returns their sum", () => {
     expect(add("//[***][%%%][###]\n1***2%%%3###4")).toBe(10);
   });
+  test("Input with alphabets should throw an error of Invalid numbers", () => {
+    expect(()=>add("12,23,ab,cd,45")).toThrow("Invalid numbers: ab, cd");
+  });
 });
